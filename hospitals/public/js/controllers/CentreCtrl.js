@@ -24,7 +24,7 @@ app.controller('CentreController', function ($scope, $http, $location, $log, $wi
     }
 
 
-    $scope.checkCenters = function () {
+    $scope.checkCentres = function () {
         console.log($scope.check);
         console.log($location.$$path);
         var url = "/clinic"
@@ -33,10 +33,21 @@ app.controller('CentreController', function ($scope, $http, $location, $log, $wi
         $http.post(url, data)
             .then(function(httpRequest) {
 
-                $scope.checkData = httpRequest.data;
-                console.log($scope.checkData);
-                console.log($scope.checkData.message);
-                $rootScope.em = $scope.checkData.href;
+                $scope.centres = httpRequest.data;
+                // console.log($scope.centres);
+
+                 if($scope.centres.success == true){
+                    $scope.href = $scope.centres.href
+                    var url = "http://" + $window.location.host + `#!director/?${$scope.href}`;
+                    console.log(url);
+                    $window.location.href = url;
+
+                 } else {
+
+                    $location.path('/centre');
+                    $scope.fullInnput = true;
+                 }
+            
 
             });
 

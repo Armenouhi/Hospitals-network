@@ -13,48 +13,71 @@
                <img id="img_menu" src="images/doctor-dog.jpg">
                <div class="menu">
                    <h3 class="mt-3 ml-5" >Centre</h3>
+                   <button type="button" class="btn btn-primary mt-1" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" style="width: 250px; border: none;">@Messages</button>
                    <a class="mt-4" href="#!/dashboard">Dashboard</a>
-                   <a class="mt-4" href="">Chat</a>
+                   <!-- <a class="mt-4" href="">Chat</a> -->
+
                    <a class="mt-4" href="#!/centre">Form</a>
                    <a class="mt-4" href="#!/calendar">Calendar</a>
+
                </div>
                <div class="menu" style="margin-top: 140%; margin-left: 40%">
                    <a class="mt-1" href="#!/">Home</a>
                </div>
            </div>
-           <div ng-if="key._id == id" ng-repeat="key in centersData" class="col-md-10 d-flex">
+
+           
+           <div  class="col-md-10 d-flex ">
 
                <div class="col-md-3">
-                   <img src="images/centres/{{key.image}}" style="width: auto; height: 510px" alt="">
+                   <img src="images/centres/{{centersData.image}}" style="width: auto; height: 510px" alt="">
                </div>
                <div class="col-md-9">
                    <div class="col-md-12">
                        <div class="col-md-12">
-                           <h1>{{key.centreName}}</h1>
-                           <p>{{key.centreEmail}}</p>
-                           <p>{{key.centrePphone}}</p>
-                           <p>{{key.centreAddress}}</p>
+                           <h1>{{centersData.centreName}}</h1>
+                           <p>{{centersData.centreEmail}}</p>
+                           <p>{{centersData.centrePphone}}</p>
+                           <p>{{centersData.centreAddress}}</p>
                        </div>
                        <div class="col-md-12 ml-5">
-                           <!--<h3 class="ml-5">Description</h3>-->
-                           <!--<p class="ml-5" style="text-align: justify">-->
-                               <!--Animals are a wonderful part of our lives. They bring us joy. They make us laugh. They give us unconditional love. They bring us sorrow when they leave us, but leave us with cherished memories of true friendship.-->
-
-                               <!--But , many animals in our society are suffering. They are homeless and unwanted, abused and neglected. Some go hungry on our streets; others put to death in our shelters; and many suffer silently at the hands of their owners, who either don’t understand, or simply don’t care.-->
-                               <!--For some animals a good environment might be love and attention and a warm place to sleep. Other animals might need a place to hide and very little human interaction. Animals that are domesticated often thrive under human attention. Examples of domesticated animals are cats, dogs, and rabbits. Exotic pets generally do best when their caretaker focuses on providing an environment very similar to their natural habitat - an animal from the desert would do best in a warm, dry, and bright cage.-->
-                               <!--Animal Medical Care strongly encourages you to keep your pet on a pet-food only diet. Not only does it provide the best nutrition, it also helps keep your pet safe.-->
-
-                               <!--Poisons should be kept far away from your pets. Common sources of poisons include:There are many substances that your pet can ingest that will make them sick, some of which can even be fatal.-->
-
-                               <!--Things that your pet should NOT eat or drink include:Animal Medical Care strongly encourages you to keep your pet on a pet-food only diet. Not only does it provide the best nutrition, it also helps keep your pet safe.-->
-
-                               <!--Poisons should be kept far away from your pets. Common sources of poisons include:-->
-                           <!--</p>-->
+                          
                        </div>
                    </div>
 
                </div>
            </div>
        </div>
+
+
+
+       <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
     </div>
 </section>

@@ -11,6 +11,10 @@ var Centre = new Schema({
     centrePphone:{type:String,required:true},
     centreOwnerPphone:{type:String,required:true},
     image: String,
+    created: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 // Centre.plugin(passportLocalMongoose);

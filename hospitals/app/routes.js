@@ -5,8 +5,13 @@ var express=require('express');
 var router=express.Router();
 var multer = require('multer');
 var uploadCentres = multer({dest:'images/centres'});
+var uploadExperts = multer({dest:'images/experts'});
+var uploadPatients = multer({dest:'images/patients'});
 var Centre = require('./models/centre');
+var Expert = require('./models/expert');
+var Patient = require('./models/patient');
 var fs = require('fs');
+var ObjectId = require("objectid");
 // ========  expose the routes to our app with module.exports =========================
 module.exports = function(app) {
 
@@ -83,7 +88,6 @@ module.exports = function(app) {
         var errD = {};
         errD.success = true;
         errD.href = "";
-        errD.data = "";
 
         Centre.find(function(err, centeres) {
             if (err)
@@ -96,14 +100,12 @@ module.exports = function(app) {
                         console.log(centeres[key].centreEmail + " " + centeres[key].centrePassword);
                         errD.success = true;
                         errD.href = `${centeres[key]._id}`;
-                        errD.data = centeres;
                         errD.message = "";
                         break;
                     } else {
                         console.log("Email or password incorrectly!");
                         errD.success = false;
                         errD.href = "";
-                        errD.data = centeres;
                         errD.message = "Email or password incorrectly!";
                     }
                 }
@@ -121,46 +123,141 @@ module.exports = function(app) {
                res.json(centeres);
             });
     })
-    
-    
-    app.post('/login', function (req, res) {
-        // console.log(req.body)
-        var data = {}
-        Centre.find( function(err, centeres) {
+
+
+
+    app.get('/centres/:id', function(req, res, next) {
+        Centre.findById(req.params.id,function (err, data) {
+
             if (err)
-            // res.send(err)
+                console.log("Data does not found!");
 
-                console.log(centeres);
+            res.json(data); 
+             next();
 
-            for (var key = 0; key < centeres.length; key++) {
-
-                if (req.body.username ==  centeres[key].centreEmail && req.body.password ==  centeres[key].centrePassword)  {
-                    // console.log(centeres[key].centreEmail + " " + centeres[key].centrePassword);
-                    // data.id = centeres[key]._id;
-                    // data.email = req.body.username;
-                    // data.password = req.body.password;
-                    // data.message = "Save successfully!"
-                    res.render("/director");
-                } else {
-                    // data.id = "";
-                    // data.email = "";
-                    // data.password = "";
-                    // data.message = "Email or password incorrectly!"
-                    console.log("Email or password incorrectly!");
-                }
-
-                console.log(centeres[key]);
-            }
-
-            res.json(data);
         });
+
+    });
+    
+    
+
+
+
+    /**
+    * Expert
+    **/
+
+
+app.post('/api/experts',uploadExperts.any(),function(req, res,next) {
+
+    console.log(req.body);
+    console.log(req.files);
+
+        if(req.files){
+            req.files.forEach(function(file){
+                console.log(file);
+                var filename=(new Date).valueOf() + "_" + file.originalname
+                fs.rename(file.path, 'public/images/experts/' + file.originalname ,function(err){
+                    if(err)throw err;
+                    var expert = new Expert({
+                        firstname:req.body.firstname,
+                        lastname:req.body.lastname,
+                        username:req.body.username,
+                        password:req.body.password,
+                        workPlace:req.body.workPlace,
+                        phone:req.body.phone,
+                        proffession:req.body.proffession,
+                        cell:req.body.cell,
+                         address:req.body.address,
+                        centre:req.body.centre,
+                        image:file.originalname
+                    })
+                   expert.save(function (err,result) {
+                        if (err) {
+                            console.log("Data does not save!")
+                        }
+                        console.log("It's OK!")
+                        res.json(result);
+
+                    });
+
+                });
+            });
+        }
+
+    });
+
+
+    app.get('/find_experts', function (req, res) {
+            Expert.find(function(err, experts) {
+                if (err)
+                // res.send(err)
+                    console.log("Error 2");
+               res.json(experts);
+            });
     })
 
 
 
-    app.post('/logout', function (req, res) {
-        console.log(req.body);
-        // res.redirect("/");
-        res.render("/");
+
+    /**
+    * Patient
+    **/
+
+
+app.post('/api/patients',uploadPatients.any(),function(req, res,next) {
+
+    console.log(req.body);
+    console.log(req.files);
+
+        if(req.files){
+            req.files.forEach(function(file){
+                console.log(file);
+                var filename=(new Date).valueOf() + "_" + file.originalname
+                fs.rename(file.path, 'public/images/patients/' + file.originalname ,function(err){
+                    if(err)throw err;
+                    var patient = new Patient({
+                        fullname:req.body.fullname,
+                        phone:req.body.phone,
+                        username:req.body.username,
+                        expert:req.body.expert,
+                        password:req.body.password,
+                        animals:req.body.animals,
+                        address:req.body.address,
+                        count:req.body.count,
+                        image:file.originalname
+                    })
+                   patient.save(function (err,result) {
+                        if (err) {
+                            console.log("Data does not save!")
+                        }
+                        console.log("It's OK!")
+                        res.json(result);
+
+                    });
+
+                });
+            });
+        }
+
+    });
+
+
+
+
+    app.get('/find_patients', function (req, res) {
+            Patient.find(function(err, patients) {
+                if (err)
+                // res.send(err)
+                    console.log("Error 2");
+               res.json(patients);
+            });
     })
+
+
+
+
 };
+
+
+

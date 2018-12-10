@@ -1,18 +1,42 @@
 app.controller('CalendarController', function ($scope,$http) {
-    var Calendar = tui.Calendar;
+      var PUBLIC_KEY = "AIzaSyBnNAISIUKe6xdhq1_rjor2rxoI3UlMY7k",
+        CALENDAR_ID = "f7jnetm22dsjc3npc2lu3buvu4@group.calendar.google.com";
+    
+    $scope.options = {
+        dataSource: new DevExpress.data.DataSource({
+            store: new DevExpress.data.CustomStore({
+                load: function(options) {
+                    var result = $.Deferred();
+                    $.ajax({
+                        data: {showDeleted: false},
+                        dataType: "json",
+                        url: [
+                            "https://www.googleapis.com/calendar/v3/calendars/",
+                            CALENDAR_ID,
+                            "/events?key=",
+                            PUBLIC_KEY
+                        ].join("")
+                    }).done(function(response) {
+                        result.resolve(response.items);
+                    });
+    
+                    return result.promise();
+                }
+            })
+        }),
+        // editing: false,
+        startDateExpr: "start.dateTime",
+        endDateExpr: "end.dateTime",
+        textExpr: "summary",
+        startDayHour: 7,
+        timeZone: "America/Los_Angeles",
+        showAllDayPanel: false,
+        views: ['day', 'workWeek', 'month'],
+        currentView: 'workWeek',
+        currentDate: new Date(),
+        height: 500
+    };
 
-
-    var calendar = new Calendar('#calendar', {
-        defaultView: 'month',
-        taskView: true,
-        template: {
-            monthGridHeader: function(model) {
-                var date = new Date(model.date);
-                var template = '<span class="tui-full-calendar-weekday-grid-date">' + date.getDate() + '</span>';
-                return template;
-            }
-        }
-    });
 });
 
 

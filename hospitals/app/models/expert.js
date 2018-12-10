@@ -1,21 +1,25 @@
-// ============== app/modelstodo.js ==================================
+// ============== app/modelsexpert.js ==================================
 
 //=========== load mongoose since we need it to define a model  ========================
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Expert = new Schema({
-    name :  { type : String , required : true },
-    lastname :{type:String,required:true},
-    birthday:{type:Date,required:true},
-    username:{type:String,required:true},
-    password:{type:String,required:true},
-    phone:{type:Number,required:true},
-    profession:{type:String,required:true},
-    workPlace:{type:String,required:true},
-    workPhone:{type:Number,required:true},
+    firstname: String,
+    lastname :String,
+    username:String,
+    password:String,
+    workPlace:String,
+    address:String,
+    cell:Number,
+    phone:Number,
+    proffession:String,
+    centre: Array,
     image: String,
-    mimetype: String
+    created: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 module.exports = mongoose.model('expert', Expert);

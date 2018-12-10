@@ -8,7 +8,7 @@
 
 // angular.injector(modules);
 
-var app = angular.module('meanApp', ["ngRoute"
+var app = angular.module('meanApp', ["ngRoute", 'dx'
      // 'ngAnimate',
     // 'ngCookies',
     // 'ngMessages',
@@ -46,6 +46,10 @@ app.config(function($routeProvider) {
         })
         .when('/dashboard', {
             templateUrl: 'view/dashboard.html',
+        })
+
+        .when('/example', {
+            templateUrl: 'view/tui.calendar-master/examples/example.html',
         })
 
 

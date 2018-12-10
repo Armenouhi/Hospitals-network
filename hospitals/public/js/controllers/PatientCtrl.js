@@ -1,64 +1,58 @@
-app.controller('LoginController', function ($scope, $rootScope, AUTH_EVENTS, AuthService) {
-    $scope.credentials = {
-        username: '',
-        password: ''
-    };
-    $scope.login = function (credentials) {
-        AuthService.login(credentials).then(function (user) {
-            $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-            $scope.setCurrentUser(user);
-            console.log(user);
-            console.log($scope.setCurrentUser(user));
-        }, function () {
-            $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
-        });
-    };
-})
-app.constant('AUTH_EVENTS', {
-    loginSuccess: 'auth-login-success',
-    loginFailed: 'auth-login-failed',
-    logoutSuccess: 'auth-logout-success',
-    sessionTimeout: 'auth-session-timeout',
-    notAuthenticated: 'auth-not-authenticated',
-    notAuthorized: 'auth-not-authorized'
-})
-app.factory('AuthService', function ($http, Session) {
-    var authService = {};
+app.controller('PatientController', function ($scope, $http, $location, $log, $window, $rootScope) {
+    $http.get('/find_experts')
+        .then(function (result) {
+            $scope.experts = result.data;
+            console.log($scope.experts);
+        })
 
-    authService.login = function (credentials) {
-        return $http
-            .post('/login', credentials)
-            .then(function (res) {
-                console.log(res.data)
-                Session.create(res.data.id, res.data.user.id,
-                    res.data.user.role);
-                return res.data.user;
-            });
-    };
+    var formData
+    $scope.addCenters = function () {
+        console.log($scope.patient);
+        //console.log($scope.expert);
 
-    authService.isAuthenticated = function () {
-        return !!Session.userId;
-    };
-
-    authService.isAuthorized = function (authorizedRoles) {
-        if (!angular.isArray(authorizedRoles)) {
-            authorizedRoles = [authorizedRoles];
+         formData = new FormData;
+        for (var key in $scope.patient){
+            formData.append(key,$scope.patient[key]);
         }
-        return (authService.isAuthenticated() &&
-            authorizedRoles.indexOf(Session.userRole) !== -1);
-    };
 
-    return authService;
-})
-app.service('Session', function () {
-    this.create = function (sessionId, userId, userRole) {
-        this.id = sessionId;
-        this.userId = userId;
-        this.userRole = userRole;
-    };
-    this.destroy = function () {
-        this.id = null;
-        this.userId = null;
-        this.userRole = null;
-    };
-})
+        // for (var value in $scope.expert){
+        //     console.log($scope.expert[value]);
+        //     formData.append("expert", $scope.expert[value]);
+        // }
+
+        var file=$("#centreImage")[0].files[0];
+        formData.append("image",file);
+
+        $http.post('/api/patients',formData,{
+            transformRequest:angular.identity,
+            headers:{
+                'Content-Type':undefined
+            }}).then(function(res){
+
+         });
+
+        $scope.patient = {};
+    //     $scope.expert = {};
+
+     }
+
+
+    // $scope.checkPatients = function () {
+    //     console.log($scope.check);
+    //     console.log($location.$$path);
+    //     var url = "/clinic"
+    //     var data = $scope.check;
+
+    //     $http.post(url, data)
+    //         .then(function(httpRequest) {
+
+    //             $scope.checkData = httpRequest.data;
+    //             console.log($scope.checkData);
+    //             console.log($scope.checkData.message);
+    //             $rootScope.em = $scope.checkData.href;
+
+    //         });
+
+    // }
+
+});
