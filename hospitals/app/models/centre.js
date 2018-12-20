@@ -2,14 +2,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Centre = new Schema({
-    centreName:{ type : String , required : true },
-    centreOwnerName:{type:String,required:true},
-    centreEmail:{type:String,required:true},
-    centreOwnerEmail:{type:String,required:true},
-    centrePassword:{type:String,required:true},
-    centreAddress:{type:String,required:true},
-    centrePphone:{type:String,required:true},
-    centreOwnerPphone:{type:String,required:true},
+    centreName : String,
+    centreOwnerName : String,
+    centreEmail : {type : String, unique: true},
+    centreOwnerEmail : String,
+    centrePassword : String,
+    centreAddress : String,
+    centrePphone : String,
+    centreOwnerPphone : String,
     image: String,
     created: {
         type: Date,

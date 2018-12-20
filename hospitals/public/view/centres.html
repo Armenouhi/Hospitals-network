@@ -1,0 +1,62 @@
+<section class="col-md-12  text-center" ng-controller = "CentresController">
+    <div class="col-md-12 mt-4">
+        <div class="row">
+            <div class="col-md-2" style="height: 55%; background-color: #00bfff">
+                <img id="img_menu" src="images/doctor-dog.jpg">
+                <div class="menu">
+                    <h3 class="mt-3 ml-5" >Centres</h3>
+                    <a class="mt-1" href="#!/centre">Sign in</a>
+                </div>
+                <div class="menu" style="margin-top: 140%; margin-left: 40%">
+                    <a class="mt-1" href="#!/">Home</a>
+                </div>
+            </div>
+            <div id="centreForm" class="col-md-10 text-center">
+                <div class="col-md-12 d-flex" style="background-color: #00bfff">
+                    <div class="col-md-2 d-flex">
+                        <img src="http://southamptonhospitalschool.co.uk/wp-content/uploads/2018/03/Hospital-Icon.png" alt="" style="height: 100px; width: auto">
+                        <h3 class="mt-3 ml-4" >Centres</h3>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-5">
+                        <a class="ml-2 text-white" href="#!/centre">Form</a>
+                    </div>
+                </div>
+                
+                <div class="col-md-12 col-md-offset-2 text-center">
+               
+                    <h4>Centres</h4>
+                    
+                    <div class="jumbotron ">
+                        <div class="col-sm-12 col-md-offset-2 text-center" >
+                        	 <div class="row" ng-repeat="data in cs | limitTo : carOnPage:startFrom" >	
+				               <div class="col-md-3 mt-5 text-center">
+				                     <img src="images/centres/{{data.image}}" style="width: auto; height: 160px" alt="">
+				                </div>
+				                <div class="col-md-9 mt-5 d-flex" style="border: 1px solid">
+				                     <div class="col-md-4">
+				                         <div class="col-md-12" >
+				                             <h3 class=""><a href="#!/info/?{{data._id}}">{{data.centreName}}</a></h3>
+				                             <p class="">{{data.centreEmail}}</p>
+				                             <p class="">{{data.centrePphone}}</p>
+				                             <p class="">{{data.centreAddress}}</p>
+				                         </div>
+				                         <div class="col-md-8 ml-5">
+				                            
+				                         </div>
+				                     </div>
+				                </div>
+              				</div>  
+
+              				<div class="paginationRow d-flex  mt-5 col-md-12 justify-content-center">
+		                        <button  class="pagination  ml-4 text-white justify-content-center"  ng-repeat="i in CountPageDivs"  id={{i}} ng-click="PaginationFunction($event)">
+		                            {{i}}
+		                        </button>
+                    		</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

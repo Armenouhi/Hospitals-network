@@ -2,135 +2,61 @@ app.controller('DirectorController', function ($scope, $http, $location, $log, $
 
     $scope.director = "This is director page";
 
-
-
     $scope.url = document.URL;
-            // console.log($scope.url);
 
     $scope.id = $scope.url.substring($scope.url.lastIndexOf('?')+1);
-            console.log($scope.id);
 
-    $rootScope.em = $scope.id;
-
+   
     $http.get("/centres/" + $scope.id)
         .then(function(response) {
-            $scope.centersData = response.data;
-            // console.log($scope.centersData);
-            localStorage.setItem("someCentre", $scope.centersData);
-
-            var someCentre = localStorage.getItem("someCentre");
-
-                var name = $scope.centersData.centreName;
-                // console.log(name);
-
-                    var count = [];
-                    $http.get("/find_experts")
-                        .then(function(response) {
-                            // console.log(response.data);
-                            var dataExperts = response.data;
-
-                            for (var j in  dataExperts) {
-                                 // console.log(response.data[j].centre[0]);
-
-                                if ($scope.id == dataExperts[j].centre[0]) {
-                                    // console.log(response.data[j].centre);
-                                    var expert = dataExperts[j].firstname;
-                                    console.log(expert);
-                                    count.push(expert);
-
-                                } else {
-                                    // console.log('response.data[j].centre');
-                                }
-
-
-                                  var arr = [];
-             $http.get("/find_patients")
-                        .then(function(response) {
-                             console.log(response.data);
-
-                            for (var t in  response.data) {
-                                 // console.log(response.data[j].centre[0]);
-
-                                if (response.data[t].expert == dataExperts[0]._id) {
-                                    // console.log(response.data[j].centre);
-                                    var patients = response.data[t].fullname;
-                                    console.log(patients);
-                                    arr.push(patients);
-
-                                } else {
-                                    // console.log('response.data[j].centre');
-                                }
-
-                            }
-
-                                console.log(arr.length);
-
-
-                var chart = new CanvasJS.Chart("chartContainer", {
-                    theme: "light2", // "light1", "light2", "dark1", "dark2"
-                    exportEnabled: true,
-                    animationEnabled: true,
-                    title: {
-                        text: `${name}'s rating`
-                    },
-                    data: [{
-                        type: "pie",
-                        startAngle: 25,
-                        toolTipContent: "<b style='color: red'>{label}</b>: {y}%",
-                        showInLegend: "true",
-                        legendText: "{label}",
-                        indexLabelFontSize: 16,
-                        indexLabel: "{label} - {y}%",
-                        dataPoints: [
-
-                                { y: count.length, label: "Experts"},
-                                { y: arr.length, label: "Patients"},
-                                { y:(count.length + arr.length), label: "General"},
-                        ]
-                    }]
-                });
-
-                chart.render();
-                    })
-                        .catch(function(response) {
-                        console.error('Gists error', response.status);
-                    })
-
-                            }
-
-                                console.log(count.length);
-
-              
-
-                
-                    })
-                        .catch(function(response) {
-                        console.error('Gists error', response.status);
-                    })
-
-         
+            $scope.data = response.data;
 
         })
-        .catch(function(response) {
-           console.error('Gists error', response.status);
-        })
 
 
-            $('#exampleModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var recipient = button.data('whatever') // Extract info from data-* attributes
-            var modal = $(this)
-            modal.find('.modal-title').text('New message to ' + recipient)
-            modal.find('.modal-body input').val(recipient)
-})
 
+        	//	Image 
+    $scope.changeImg = document.getElementById("changeImg");
+
+   $scope.changeImg.addEventListener("mouseover", function( event ) {   
+    document.getElementById("image").style.display = "block";
+    
+    setTimeout(function() {
+     document.getElementById("image").style.display = "none";
+    }, 5000);
+  }, false);
+	
+
+
+   			//	Post image
+	var formData;
+
+   	$scope.changeImg = function() {
+   		 formData = new FormData;    
+        var file=$("#image")[0].files[0];
+        
+        formData.append("image",file);
+        formData.append("id",$scope.id);
+
+
+        $http.post('/changeImg',formData,{
+            transformRequest:angular.identity,
+            headers:{
+                'Content-Type':undefined
+            }}).then(function(res){
+                $scope.errors = res.data;
+
+                console.log($scope.errors);
+            });
+
+
+   	}
 
 
 
     $scope.logOut = function () {
         localStorage.clear();
         var url = "http://" + $window.location.host + `/#!/centre`;
-        console.log(url);
         $window.location.href = url;
 
         

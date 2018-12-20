@@ -22,21 +22,23 @@ var app = angular.module('meanApp', ["ngRoute", 'dx'
 app.config(function($routeProvider) {
     $routeProvider
 
-          .when('/', {
+        .when('/', {
             templateUrl: 'view/home.html',
-
         })
         .when('/centre', {
             templateUrl: 'view/centre.html',
-
+        })
+        .when('/centres', {
+            templateUrl: 'view/centres.html',
+        })
+        .when('/info', {
+            templateUrl: 'view/info.html',
         })
         .when('/expert', {
             templateUrl: 'view/expert.html',
-
         })
         .when('/patient', {
             templateUrl: 'view/patient.html',
-
         })
         .when('/director', {
             templateUrl: 'view/director.html',
@@ -47,7 +49,6 @@ app.config(function($routeProvider) {
         .when('/dashboard', {
             templateUrl: 'view/dashboard.html',
         })
-
         .when('/example', {
             templateUrl: 'view/tui.calendar-master/examples/example.html',
         })

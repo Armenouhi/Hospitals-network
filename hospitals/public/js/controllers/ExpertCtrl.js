@@ -16,11 +16,7 @@ app.controller('ExpertController', function ($scope, $http, $location, $log, $wi
             formData.append(key,$scope.expert[key]);
         }
 
-        for (var value in $scope.centre){
-            console.log($scope.centre[value]);
-            formData.append("centre", $scope.centre[value]);
-        }
-
+    
 
         var file=$("#centreImage")[0].files[0];
         formData.append("image",file);
@@ -35,7 +31,7 @@ app.controller('ExpertController', function ($scope, $http, $location, $log, $wi
 
 
         $scope.expert = {};
-        $scope.centre = {};
+        
 
     }
 

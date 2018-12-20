@@ -14,7 +14,10 @@ var Expert = new Schema({
     cell:Number,
     phone:Number,
     proffession:String,
-    centre: Array,
+    centre: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Centre'
+    },
     image: String,
     created: {
         type: Date,
